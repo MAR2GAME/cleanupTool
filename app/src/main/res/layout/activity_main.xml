@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/main_bg"
+    tools:context=".activity.MainActivity">
+
+    <ImageView
+        android:id="@+id/iv_setting"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="25dp"
+        android:src="@mipmap/ic_setting" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/iv_scan_bg"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="340dp"
+        app:lottie_loop="true"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_below="@id/iv_setting"
+        android:layout_centerHorizontal="true">
+
+
+        <com.mycleaner.phonecleantool.view.RingProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+          android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/tv_hint"
+            android:textSize="14sp"
+            android:textColor="@color/hint_color"
+            android:text="@string/used_space"
+            android:layout_marginTop="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_usagePercentage"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_below="@id/tv_hint"
+            android:textColor="@color/title_color"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_memory"
+            android:textSize="14sp"
+            android:layout_below="@id/tv_usagePercentage"
+            android:textColor="@color/title_color"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <Button
+            android:id="@+id/bt_clean"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_selector"
+            android:text="@string/clean"
+            android:textAllCaps="false"
+            android:textColor="@color/text_seletor"
+            android:textSize="17sp"/>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
+    <FrameLayout
+        android:id="@+id/fl_ad"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+    </FrameLayout>
+</RelativeLayout>

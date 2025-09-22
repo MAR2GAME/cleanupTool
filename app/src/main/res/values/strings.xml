@@ -1,0 +1,165 @@
+<resources>
+    <string name="app_name">CleanGo</string>
+    <string name="please_wait_a_moment">Please wait a moment</string>
+    <string name="this_process_may_contain_ads">This process may contain ads</string>
+    <string name="agreement_prompt">By proceeding, you confirm you accept our</string>
+    <string name="agreement">Terms of Service | Privacy Policy</string>
+    <string name="notification_dialog_title">Notification permissions</string>
+    <string name="notification_dialog_hint">Turn on notification permissions so you won\'t miss important files!</string>
+    <string name="openNotify_hint">Please enable notification permissions manually</string>
+
+    <string name="do_not_allow">Don\'t allow</string>
+    <string name="terms_of_use">Terms of Service</string>
+    <string name="privacy_policies">Privacy Policy</string>
+    <string name="agree_hint">please agree terms of use and privacy policies</string>
+    <string name="strat_btn">Start</string>
+    <string name="browser_not_installed">Browser not installed</string>
+    <string name="skip">skip</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="continue_btn">Continue</string>
+    <string name="guide_permission_hint">Please allow required permission to scan files</string>
+    <string name="turn_it_on">Tip Find CleanBoost and turn it on</string>
+    <string name="hi">Hi!</string>
+    <string name="guide_hint">Let me guide you through your first clean
+        up process</string>
+    <string name="clean_hint">No personal data is deleted in this process</string>
+    <string name="junk_selected">Junk Selected</string>
+    <string name="your_phone_is_very_clean">Your phone is very clean.</string>
+
+    <string name="ad_loading">LOADING…</string>
+
+
+    <string name="process_manager">Process Manager</string>
+    <string name="app_manager">App Manager</string>
+    <string name="speaker_cleaner">Speaker Cleaner</string>
+    <string name="battery_info">Battery Info</string>
+    <string name="screenshot_manager">Screenshot Manager</string>
+    <string name="large_file_cleaner">Large File Cleaner</string>
+
+    <string name="clean">Clean</string>
+    <string name="go">Go</string>
+    <string name="check">Check</string>
+    <string name="try_it">Try it</string>
+    <string name="task_completed">Task Completed!</string>
+    <string name="junk_files">Junk Files</string>
+    <string name="free_up_memory_by_cleaning_junk_files">Free up memory by cleaning junk files.</string>
+    <string name="check_ram_status">Check RAM status and apps running in the background</string>
+    <string name="uninstall_infrequently_used_apps_and_free_up_storage_space">Uninstall infrequently used apps and free up storage space .</string>
+    <string name="check_the_detail_information_of_phone_battery">Check the detail information of phone battery.</string>
+    <string name="clean_up_large_files_on_your_phone">Clean up large files on your phone.</string>
+
+    <string name="clean_up_screenshots_on_your_phone">Clean up screenshots on your phone.</string>
+    <string name="clean_the_phone_earpiece">Attempts to help clear dust from speaker by playing a sound and utilizing vibration.</string>
+    <string name="access_required">Access Required</string>
+    <string name="dialog_permission_hint">Please allow access to use this feature</string>
+    <string name="will_not_share_private_data">Won\'t share private data</string>
+    <string name="will_not_collect_private_data">Won\'t collect private data</string>
+    <string name="allow_btn">Allow</string>
+    <string name="setting">Setting</string>
+    <string name="sdk_init_error">Initialization failed with error "+errCode</string>
+    <string name="obsolete_files">Obsolete files</string>
+    <string name="residuals">Residuals</string>
+    <string name="ad_junk">Ad Junk</string>
+    <string name="trash_items">Trash Items</string>
+    <string name="finished">Finished</string>
+
+    <string name="clean_btn">Clean</string>
+    <string name="used_space">Used space</string>
+
+    <string name="scanning_in_progress">Scanning in progress. Are you sure want to stop?</string>
+    <string name="cleaning_in_progress">junk file found. Are you sure want to stop?</string>
+    <string name="scanning_completed">Scanning Completed</string>
+    <string name="no_junk">No junk files found</string>
+    <string name="start">Start</string>
+    <string name="free_memory">Free memory</string>
+
+    <string name="app_not_found">App not found</string>
+    <string name="update_hint">The update has been downloaded and completed</string>
+    <string name="update">Update</string>
+
+
+    <string name="resident_notice">Resident Notice</string>
+    <string name="ram">Ram</string>
+    <string name="app">App</string>
+    <string name="battery">Battery</string>
+
+
+    <string name="cleaning">Cleaning</string>
+    <string name="speaker_back_hint">Cleaning,please wait a moment</string>
+    <string name="speaker_hint">There will be vibration and sound during speaker cleaning,which is normal!</string>
+
+
+    <string name="install_time">Install Time</string>
+    <string name="size">Size</string>
+    <string name="installed_app_not_found">Installed app not found</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="uninstall_app">Tap \' Uninstall \' to remove the app you don\'t use often.</string>
+
+
+    <string name="all_types">All Types</string>
+    <string name="image">Image</string>
+    <string name="video">Video</string>
+    <string name="audio">Audio</string>
+    <string name="apk">Apk</string>
+    <string name="other">Other</string>
+    <string name="all_size">All Size</string>
+    <string name="large_file_not_found">Large file not found</string>
+    <string name="select_all">Select All</string>
+    <string name="delete">Delete</string>
+    <string name="delete_large_file_hint">Do you want to delete these large files?</string>
+    <string name="delete_screenshots_hint">Do you want to delete these screenshots?</string>
+
+
+    <string name="screenshot_not_found">Screenshot not found</string>
+    <string name="total_size">Screenshot totally</string>
+
+
+    <string name="temperature">Temperature</string>
+    <string name="percentage">Percentage</string>
+    <string name="estimated_battery">Estimated battery</string>
+    <string name="battery_capacity">Battery Capacity</string>
+    <string name="voltage">Voltage</string>
+    <string name="battery_health">Battery Health</string>
+    <string name="battery_type">Battery Type</string>
+    <string name="overcooling">overcooling</string>
+    <string name="damage">damage</string>
+    <string name="good">good</string>
+    <string name="overheat">overheat</string>
+    <string name="overvoltage">overvoltage</string>
+    <string name="unknown">unknown</string>
+    <string name="fault">fault</string>
+
+    <string name="share">Share</string>
+    <string name="rate_us">Rate us</string>
+    <string name="about">About</string>
+    <string name="version">Version</string>
+
+
+    <string name="memory_usage">Memory usage</string>
+
+    <string name="running_apps">Running apps</string>
+    <string name="got_it">Got it</string>
+    <string name="force_stop">Tap \' Force Stop \' to quit the running app completely.</string>
+
+    <string name="running_background_apps">Running background apps</string>
+    <string name="stop">Stop</string>
+
+    <string name="clean_dust">Clean dust</string>
+
+    <string name="click_the_button_to_start_cleaning">Click the button to start cleaning</string>
+    <string name="clean_dust_hint">There will be vibration and sound during speaker cleaning, which is normal!</string>
+    <string name="failed_to_obtain_battery_information">Failed to obtain battery information</string>
+
+
+    <string name="rate_us_hint">We would be very grateful if you could rate us 5 stars！</string>
+
+
+    <string name="scanning_for_running_process">Scanning for running process..</string>
+    <string name="scanning_apps">Scanning apps..</string>
+    <string name="scanning_for_battery_info">Scanning for battery info..</string>
+    <string name="scanning_large_file">Scanning large files..</string>
+    <string name="scanning_screenshots">Scanning screenshots..</string>
+    <string name="loading_the_components_of_speaker_cleaner">Loading..</string>
+
+</resources>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.ScreenshotManagerActivity">
+
+
+    <ImageView
+        android:id="@+id/iv_screenshot_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="54dp"
+        android:src="@mipmap/ic_back" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="54dp"
+        android:text="@string/screenshot_manager"
+        android:textColor="@color/title_color"
+        android:textSize="20sp" />
+    
+    <ImageView
+        android:id="@+id/iv_screenshot"
+        android:src="@mipmap/ic_screenshot"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/iv_screenshot_back"
+        android:layout_width="110dp"
+        android:layout_height="120dp">
+    </ImageView>
+    <TextView
+        android:id="@+id/tv_size"
+        android:layout_toRightOf="@id/iv_screenshot"
+        android:layout_below="@id/iv_screenshot_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:textSize="30sp"
+        android:text="300MB"
+        android:textStyle="bold"
+        android:layout_marginLeft="30dp"
+        android:textColor="@color/title_color"
+        >
+    </TextView>
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="wrap_content"
+        android:textSize="16sp"
+        android:layout_below="@id/tv_size"
+        android:layout_toRightOf="@id/iv_screenshot"
+        android:layout_marginLeft="30dp"
+        android:textColor="@color/title_color"
+        android:gravity="center_horizontal"
+        android:text="@string/total_size"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_screenshot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/iv_screenshot"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="160dp" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/iv_check"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_check_nor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/iv_check"
+                android:text="@string/select_all"
+                android:textColor="@color/title_color"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/bt_delete"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/rl_select_all"
+            android:background="@drawable/btn_selector"
+            android:text="@string/delete"
+            android:textColor="@color/text_seletor"
+            android:textSize="17sp" />
+        <FrameLayout
+            android:id="@+id/fl_ad"
+            android:visibility="gone"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+        </FrameLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/iv_screenshot_back"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="160dp"
+        android:background="@color/white"
+      android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/iv_nodata"
+            android:layout_width="275dp"
+            android:layout_height="275dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:src="@mipmap/ic_nodata" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_nodata"
+            android:layout_centerHorizontal="true"
+            android:text="@string/screenshot_not_found"
+            android:textColor="@color/hint_color"
+            android:textSize="18sp" />
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

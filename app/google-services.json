@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "464158368663",
+    "project_id": "cleanboost-c5103",
+    "storage_bucket": "cleanboost-c5103.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464158368663:android:fc621e2a6f64e0c9fa1ad2",
+        "android_client_info": {
+          "package_name": "com.mycleaner.phonecleantool"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4UsrGNyCigt2ct27jyJpmgpWZMlHDJ0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464158368663:android:9a1a8eff1faebfd8fa1ad2",
+        "android_client_info": {
+          "package_name": "com.myphonecleaner.cleanboost"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4UsrGNyCigt2ct27jyJpmgpWZMlHDJ0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

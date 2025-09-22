@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/main_bg"
+    tools:context=".activity.BatteryInfoActivity">
+
+    <ImageView
+        android:id="@+id/iv_battery_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="54dp"
+        android:src="@mipmap/ic_back" />
+    <TextView
+        android:text="@string/battery_info"
+        android:textSize="20sp"
+        android:textColor="@color/title_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="54dp"
+        >
+    </TextView>
+
+    <ImageView
+        android:id="@+id/iv_battery"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_below="@id/iv_battery_back"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:src="@mipmap/ic_battry_big"/>
+
+
+    <TextView
+        android:id="@+id/tv_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_battery_back"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/iv_battery"
+        android:textColor="@color/title_color"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_temperature"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@id/iv_battery"
+        android:text="@string/temperature"
+        android:textColor="@color/title_color"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_hint"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/iv_battery"
+        android:textColor="@color/title_color"
+        android:textSize="28sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_percentage"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@id/iv_battery"
+        android:text="@string/percentage"
+        android:textColor="@color/title_color"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_time_bg"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/iv_battery"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/task_shape"/>
+
+    <TextView
+        android:id="@+id/tv_time_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_battery"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="35dp"
+        android:text="@string/estimated_battery"
+        android:textColor="@color/hint_color"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_time_hint"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/title_color"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="6dp"
+        android:layout_below="@id/tv_time"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/progress_bar_layer" />
+
+    <TextView
+        android:id="@+id/tv_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_time_hint"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:layout_marginRight="35dp"
+        android:textColor="@color/btn_nor"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/tv_time_bg"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/task_shape">
+
+            <ImageView
+                android:id="@+id/iv_capacity"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:src="@mipmap/ic_capacity"/>
+
+            <TextView
+                android:id="@+id/tv_capacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_capacity"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_capacity_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_capacity"
+                android:layout_marginLeft="10dp"
+                android:text="@string/battery_capacity"
+                android:textColor="@color/hint_color"
+                android:textSize="14sp"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/task_shape">
+
+            <ImageView
+                android:id="@+id/iv_voltage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:src="@mipmap/ic_voltage"/>
+
+            <TextView
+                android:id="@+id/tv_voltage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_voltage"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_voltage_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_voltage"
+                android:layout_marginLeft="10dp"
+                android:text="@string/voltage"
+                android:textColor="@color/hint_color"
+                android:textSize="14sp"/>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/ll"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/task_shape">
+
+
+            <ImageView
+                android:id="@+id/iv_health"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:src="@mipmap/ic_health"/>
+
+            <TextView
+                android:id="@+id/tv_health"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_health"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_health_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_health"
+                android:layout_marginLeft="10dp"
+                android:text="@string/battery_health"
+                android:textColor="@color/hint_color"
+                android:textSize="14sp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/task_shape">
+
+
+            <ImageView
+                android:id="@+id/iv_battrey_type"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:src="@mipmap/ic_battrey_type"/>
+
+            <TextView
+                android:id="@+id/tv_battrey_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@id/iv_battrey_type"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_battrey_type_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_battrey_type"
+                android:layout_marginLeft="10dp"
+                android:text="@string/battery_type"
+                android:textColor="@color/hint_color"
+                android:textSize="14sp"/>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/bt_got_it"
+        android:layout_width="330dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="90dp"
+        android:background="@drawable/btn_selector"
+        android:text="@string/got_it"
+        android:textAllCaps="false"
+        android:textColor="@color/text_seletor"
+        android:textSize="17sp" />
+
+    <FrameLayout
+        android:id="@+id/fl_ad"
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+    </FrameLayout>
+
+
+</RelativeLayout>

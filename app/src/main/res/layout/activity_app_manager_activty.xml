@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.AppManagerActivity"
+   >
+
+    <ImageView
+        android:id="@+id/iv_appmanager_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="54dp"
+        android:src="@mipmap/ic_back"
+  />
+    <TextView
+        android:text="@string/app_manager"
+        android:textSize="20sp"
+        android:textColor="@color/title_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="54dp"
+        >
+    </TextView>
+
+    <RelativeLayout
+        android:id="@+id/rl_size"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/iv_appmanager_back"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/tv_sort_shape">
+
+        <TextView
+            android:id="@+id/tv_size_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/size"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"/>
+
+        <ImageView
+            android:id="@+id/iv_size_sort"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_size_sort"
+            android:src="@mipmap/ic_sort_desc"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_time"
+        android:layout_width="170dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/iv_appmanager_back"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@id/rl_size"
+        android:background="@drawable/tv_sort_shape">
+
+        <TextView
+            android:id="@+id/tv_time_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/install_time"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"/>
+
+        <ImageView
+            android:id="@+id/iv_time_sort"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_sort_nor"
+            android:layout_toRightOf="@id/tv_time_sort"/>
+    </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@id/rl_size"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/rc_app"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="160dp">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/bt_ok"
+        android:layout_width="330dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="90dp"
+        android:background="@drawable/btn_selector"
+        android:text="@string/ok"
+        android:textAllCaps="false"
+        android:textColor="@color/text_seletor"
+        android:textSize="17sp" />
+
+   <RelativeLayout
+       android:id="@+id/rl_nodata"
+       android:visibility="gone"
+       android:layout_below="@id/iv_appmanager_back"
+       android:layout_marginTop="10dp"
+       android:background="@color/white"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_marginBottom="160dp">
+       <ImageView
+           android:id="@+id/iv_nodata"
+           android:src="@mipmap/ic_nodata"
+           android:layout_marginTop="80dp"
+           android:layout_centerHorizontal="true"
+           android:layout_width="275dp"
+           android:layout_height="275dp">
+       </ImageView>
+       <TextView
+           android:textSize="18sp"
+           android:textColor="@color/hint_color"
+           android:text="@string/installed_app_not_found"
+           android:layout_centerHorizontal="true"
+           android:layout_below="@id/iv_nodata"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+       </TextView>
+   </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_ad"
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+    </FrameLayout>
+</RelativeLayout>

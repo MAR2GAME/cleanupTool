@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#86FAFC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+
+
+
+    <color name="title_color">#191919</color>
+    <color name="btn_nor">#337EFF</color>
+
+    <color name="to_do">#F53d3d</color>
+    <color name="btn_press">#F8F5F5</color>
+    <color name="hint_color">#999999</color>
+    <color name="transparent">#00000000</color>
+    <color name="transparent_black">#80000000</color>
+
+    <color name="progress_bg">#E5EEEF</color>
+
+    <color name="process_bg">#8454ff</color>
+    <color name="app_bg">#ff6a2c</color>
+    <color name="battery_bg">#00c494</color>
+    <color name="speaker_bg">#eca211</color>
+    <color name="large_bg">#ffc70b</color>
+    <color name="screenshot_bg">#4397ee</color>
+
+
+
+
+
+
+</resources>

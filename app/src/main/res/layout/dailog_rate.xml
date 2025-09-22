@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp"
+    android:layout_height="400dp">
+    <ImageView
+        android:src="@mipmap/ic_rate_bg1"
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        android:layout_marginTop="40dp">
+    </ImageView>
+    <ImageView
+        android:src="@mipmap/ic_rate_bg2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_width="320dp"
+        android:layout_height="335dp">
+    </ImageView>
+    <ImageView
+        android:id="@+id/iv_smiling"
+        android:src="@mipmap/ic_smiling"
+        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp">
+    </ImageView>
+    <ImageView
+        android:id="@+id/iv_hint"
+        android:layout_below="@id/iv_smiling"
+        android:src="@mipmap/ic_texthint"
+        android:layout_centerHorizontal="true"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp">
+    </ImageView>
+    <TextView
+        android:id="@+id/tv_hint"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/btn_nor"
+        android:text="@string/rate_us_hint"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/iv_hint"
+        android:layout_centerHorizontal="true"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content">
+    </TextView>
+    
+    <ImageView
+        android:id="@+id/iv_start"
+        android:src="@mipmap/ic_start"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/tv_hint"
+        android:layout_centerHorizontal="true"
+        android:layout_width="240dp"
+        android:layout_height="35dp">
+    </ImageView>
+    <Button
+        android:id="@+id/bt_rate"
+        android:layout_width="240dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/iv_start"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_selector"
+        android:text="@string/rate_us"
+        android:textAllCaps="false"
+        android:textColor="@color/text_seletor"
+        android:textSize="15sp" />
+
+    
+    
+
+
+
+
+
+
+
+
+
+</RelativeLayout>
