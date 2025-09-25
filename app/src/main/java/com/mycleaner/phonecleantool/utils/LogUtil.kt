@@ -18,7 +18,9 @@ object LogUtil {
 
     fun log(eventName: String, params: Map<String, Any>) {
         Log.e(TAG, "log: $eventName $params")
-        logFirebase(eventName, params)
+        if (eventName!=LogAdData.ad_impression) {
+            logFirebase(eventName, params)
+        }
         logThinking(eventName, params)
     }
 
