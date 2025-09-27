@@ -128,7 +128,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     fun toNext() {
         val appOpenFrom = intent.getStringExtra("AppOpenFrom")
-        Log.e("weiyu","appOpenFrom"+appOpenFrom)
         if (TextUtils.isEmpty(appOpenFrom)) {
             if (AppPrefsUtils.getBoolean(BaseConstant.IS_TOGUIDE)) {
                 LogUtil.log("enter_homepage", mapOf("referrer_name" to "open"))
@@ -196,7 +195,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
                 }
             } else {
-                Log.e("weiyu","进来了"+intent.extras?.getString(BaseConstant.NEXT_TAG))
                 val next = intent.extras?.getString(BaseConstant.NEXT_TAG) ?: ""
                 if (next == getString(R.string.junk_files)) {
                     readyGoThenKill(MainActivity::class.java)
@@ -248,10 +246,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
             progressDialog!!.relese()
             progressDialog = null
         }
-        LogUtil.log(
-            "splash_display",
-            mapOf("duration_time" to (System.currentTimeMillis() - startTime))
-        )
+
 
     }
 

@@ -16,16 +16,23 @@ import org.json.JSONObject
 object LogUtil {
     private const val TAG = "LogUtil"
 
+    private  var bundle = Bundle()
+
+    private  var jsonObject = JSONObject()
+
+
     fun log(eventName: String, params: Map<String, Any>) {
         Log.e(TAG, "log: $eventName $params")
-        logFirebase(eventName, params)
+        if (eventName!=LogAdData.ad_impression) {
+          logFirebase(eventName, params)
+        }
         logThinking(eventName, params)
     }
 
     @SuppressLint("MissingPermission")
     fun logFirebase(eventName: String, params: Map<String, Any>) {
         val firebaseAnalytics = FirebaseAnalytics.getInstance(BaseApplication.instance!!)
-        val bundle = Bundle()
+        bundle.clear()
         for ((key, value) in params) {
             when (value) {
                 is String -> bundle.putString(key, value)
@@ -42,7 +49,7 @@ object LogUtil {
 
     fun logThinking(eventName: String, params: Map<String, Any>) {
         try {
-            val jsonObject = JSONObject()
+            jsonObject = JSONObject()
             for ((key, value) in params) {
                 jsonObject.put(key, value)
             }

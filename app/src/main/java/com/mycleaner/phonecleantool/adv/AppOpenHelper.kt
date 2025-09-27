@@ -16,6 +16,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.OnPaidEventListener
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.mycleaner.phonecleantool.adv.ShowBannerAd.logParams
 import com.mycleaner.phonecleantool.base.BaseApplication
 import com.mycleaner.phonecleantool.command.AppConfig
 import com.mycleaner.phonecleantool.utils.AppPrefsUtils
@@ -81,23 +82,26 @@ class AppOpenHelper(
         }
     }
 
+
+
     private fun showAdmob() {
 
 
         Log.d(TAG, "showAdmob: ")
+
+        if (logParams.isNotEmpty()) {
+            logParams.clear()
+        }
+        logParams.put(LogAdParam.ad_platform, LogAdParam.ad_platform_admob)
+        logParams.put(LogAdParam.ad_areakey, areaKey)
+        logParams.put(LogAdParam.ad_format, LogAdParam.ad_format_open)
+        logParams.put(LogAdParam.ad_unit_name, AdvIDs.getAdmobOpenId())
         LogUtil.log(
             LogAdData.ad_start_loading,
-            mapOf(
-                LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-                LogAdParam.ad_areakey to areaKey,
-                LogAdParam.ad_format to LogAdParam.ad_format_open,
-                LogAdParam.ad_unit_name to AdvIDs.getAdmobOpenId(),
-            )
+            logParams
         )
 
-
         val startLoadingTime = System.currentTimeMillis()
-
         AppOpenAd.load(
             context,
             AdvIDs.getAdmobOpenId(),
@@ -119,18 +123,25 @@ class AppOpenHelper(
     private fun handleAdmobAdLoaded(ad: AppOpenAd, startLoadingTime: Long) {
         val adSource = ad.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: LogAdParam.unknown
 
+        if (logParams.isNotEmpty()) {
+            logParams.clear()
+        }
+        logParams.put(LogAdParam.ad_platform, LogAdParam.ad_platform_admob)
+        logParams.put(
+            LogAdParam.duration,
+            (System.currentTimeMillis() - startLoadingTime)
+        )
+        logParams.put(LogAdParam.ad_areakey, areaKey)
+        logParams.put(LogAdParam.ad_format, LogAdParam.ad_format_open)
+        logParams.put(
+            LogAdParam.ad_source,
+            (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: "unknow")
+        )
+        logParams.put(LogAdParam.ad_unit_name, AdvIDs.getAdmobOpenId())
         LogUtil.log(
             LogAdData.ad_finish_loading,
-            mapOf(
-                LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-                LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-                LogAdParam.ad_areakey to areaKey,
-                LogAdParam.ad_format to LogAdParam.ad_format_open,
-                LogAdParam.ad_source to (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: "unknow"),
-                LogAdParam.ad_unit_name to AdvIDs.getAdmobOpenId(),
-            )
+            logParams
         )
-
         ad.fullScreenContentCallback = createAdmobFullScreenCallback(ad,adSource, startLoadingTime)
         ad.onPaidEventListener = createAdmobPaidEventListener(ad, adSource)
 
@@ -148,18 +159,27 @@ class AppOpenHelper(
     ): FullScreenContentCallback {
         return object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
+
+                if (logParams.isNotEmpty()) {
+                    logParams.clear()
+                }
+                logParams.put(LogAdParam.ad_platform, LogAdParam.ad_platform_admob)
+                logParams.put(
+                    LogAdParam.duration,
+                    (System.currentTimeMillis() - startLoadingTime)
+                )
+                logParams.put(LogAdParam.ad_areakey, areaKey)
+                logParams.put(LogAdParam.ad_format, LogAdParam.ad_format_open)
+                logParams.put(
+                    LogAdParam.ad_source,
+                    (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
+                        ?: LogAdParam.unknown)
+                )
+                logParams.put(LogAdParam.ad_unit_name, AdvIDs.getAdmobOpenId())
                 LogUtil.log(
                     LogAdData.ad_close,
-                    mapOf(
-                        LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-                        LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-                        LogAdParam.ad_areakey to areaKey,
-                        LogAdParam.ad_format to LogAdParam.ad_format_open,
-                        LogAdParam.ad_source to (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: LogAdParam.unknown),
-                        LogAdParam.ad_unit_name to AdvIDs.getAdmobOpenId(),
-                    )
+                    logParams
                 )
-
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: AdError) {
@@ -176,16 +196,25 @@ class AppOpenHelper(
             }
 
             override fun onAdClicked() {
+                if (logParams.isNotEmpty()) {
+                    logParams.clear()
+                }
+                logParams.put(LogAdParam.ad_platform, LogAdParam.ad_platform_admob)
+                logParams.put(
+                    LogAdParam.duration,
+                    (System.currentTimeMillis() - startLoadingTime)
+                )
+                logParams.put(LogAdParam.ad_areakey, areaKey)
+                logParams.put(LogAdParam.ad_format, LogAdParam.ad_format_open)
+                logParams.put(
+                    LogAdParam.ad_source,
+                    (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
+                        ?: LogAdParam.unknown)
+                )
+                logParams.put(LogAdParam.ad_unit_name, AdvIDs.getAdmobOpenId())
                 LogUtil.log(
                     LogAdData.ad_click,
-                    mapOf(
-                        LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-                        LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-                        LogAdParam.ad_areakey to areaKey,
-                        LogAdParam.ad_format to LogAdParam.ad_format_open,
-                        LogAdParam.ad_source to (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: LogAdParam.unknown),
-                        LogAdParam.ad_unit_name to AdvIDs.getAdmobOpenId(),
-                    )
+                    logParams
                 )
             }
         }
@@ -331,19 +360,38 @@ class AppOpenHelper(
             Singular.adRevenue(data)
         }
 
-        // Firebase logging
-        val params = mapOf(
-            LogAdParam.ad_areakey to areaKey,
-            FirebaseAnalytics.Param.AD_PLATFORM to platform,
-            FirebaseAnalytics.Param.AD_UNIT_NAME to getAdUnitId(platform),
-            FirebaseAnalytics.Param.AD_FORMAT to LogAdParam.ad_format_open,
-            FirebaseAnalytics.Param.AD_SOURCE to adSource,
-            FirebaseAnalytics.Param.CURRENCY to currency,
-            FirebaseAnalytics.Param.VALUE to revenue,
-        )
 
-        LogUtil.log(LogAdData.ad_impression, params)
-        LogUtil.log(LogAdData.ad_revenue, params)
+
+        if (logParams.isNotEmpty()) {
+            logParams.clear()
+        }
+        logParams.put(LogAdParam.ad_areakey, areaKey)
+        logParams.put(
+            FirebaseAnalytics.Param.AD_PLATFORM,
+            platform
+        )
+        logParams.put(
+            FirebaseAnalytics.Param.AD_UNIT_NAME,
+            getAdUnitId(platform)
+        )
+        logParams.put(
+            FirebaseAnalytics.Param.AD_FORMAT,
+            LogAdParam.ad_format_open
+        )
+        logParams.put(
+            FirebaseAnalytics.Param.AD_SOURCE,
+            adSource
+        )
+        logParams.put(FirebaseAnalytics.Param.CURRENCY, currency)
+        logParams.put(FirebaseAnalytics.Param.VALUE, revenue)
+        LogUtil.log(
+            LogAdData.ad_impression,
+            logParams
+        )
+        LogUtil.log(
+            LogAdData.ad_revenue,
+            logParams
+        )
     }
 
     private fun getAdUnitId(platform: String): String {

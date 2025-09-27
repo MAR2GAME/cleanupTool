@@ -47,13 +47,25 @@ class BaseApplication : Application() {
         initConfig()
         RemoteConfigManager.initRemoteConfig()
         AdvInit.initAdv(this)
-        if (this.packageName.equals(getProcessName(this))) {
-            initThinkingAnalyticsSDK()
-            initFireBase()
-            initSingular()
+        initThinkingAnalyticsSDK()
+        initFireBase()
+        initSingular()
 
-        }
+
     }
+
+//    private  fun getProcessName(context: Context): String? {
+//        val am = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+//        val runningApps = am.runningAppProcesses ?: return null
+//        for (proInfo in runningApps) {
+//            if (proInfo.pid == Process.myPid()) {
+//                if (proInfo.processName != null) {
+//                    return proInfo.processName
+//                }
+//            }
+//        }
+//        return null
+//    }
 
 
     @RequiresPermission(allOf = [Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WAKE_LOCK])
@@ -66,6 +78,9 @@ class BaseApplication : Application() {
         if (AdvCheckManager.params.isFirstOpen) {
             AdvCheckManager.params.installTime = System.currentTimeMillis()
             AdvCheckManager.params.isFirstOpen = false
+
+
+
         }
     }
 
@@ -128,18 +143,7 @@ class BaseApplication : Application() {
         //打印SDK日志
         TDAnalytics.enableLog(if(AppConfig.isDebug) true else false);
     }
-    private fun getProcessName(context: Context): String? {
-        val am = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        val runningApps = am.runningAppProcesses ?: return null
-        for (proInfo in runningApps) {
-            if (proInfo.pid == Process.myPid()) {
-                if (proInfo.processName != null) {
-                    return proInfo.processName
-                }
-            }
-        }
-        return null
-    }
+
 
 
     private fun initSingular() {

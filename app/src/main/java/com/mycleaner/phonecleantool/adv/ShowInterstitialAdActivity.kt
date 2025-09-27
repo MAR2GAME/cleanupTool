@@ -56,9 +56,9 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
         }
 
         fun openPage(context: AdvActivity, areaKey: String, onClosed: () -> Unit) {
-            if(AdvCheckManager.params.limitTime > System.currentTimeMillis()){
+            if (AdvCheckManager.params.limitTime > System.currentTimeMillis()) {
                 onClosed()
-            }else{
+            } else {
                 context.onClosedCallback = onClosed
                 context.interstitialLauncher.launch(getIntent(context, areaKey))
             }
@@ -74,6 +74,8 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
     }
 
     var isShowing = false
+
+    var logParams: MutableMap<String, Any> = mutableMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,21 +112,21 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
             showLoading()
             var canPlay = withContext(Dispatchers.IO) {
                 // 这里执行实际的耗时操作
-				AdvCheckManager.checkAdv(areaKey)
+                AdvCheckManager.checkAdv(areaKey)
             }
-			if(canPlay){
-				if (!isShowing) {
-					startLoadingTimeout()
-					isShowing = true
-					if (AppConfig.showAdPlatform == LogAdParam.ad_platform_admob) {
-						showAdmobAdv()
-					} else if (AppConfig.showAdPlatform == LogAdParam.ad_platform_max) {
-						showMaxAdv()
-					}
-				}
-			}else{
-				finish()
-			}
+            if (canPlay) {
+                if (!isShowing) {
+                    startLoadingTimeout()
+                    isShowing = true
+                    if (AppConfig.showAdPlatform == LogAdParam.ad_platform_admob) {
+                        showAdmobAdv()
+                    } else if (AppConfig.showAdPlatform == LogAdParam.ad_platform_max) {
+                        showMaxAdv()
+                    }
+                }
+            } else {
+                finish()
+            }
         }
     }
 
@@ -134,6 +136,7 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 // 可以在这里更新倒计时UI（如果需要）
             }
+
             override fun onFinish() {
                 if (isLoading) {
                     finish()
@@ -149,14 +152,16 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
 
 
     fun showAdmobAdv() {
+        if (logParams.isNotEmpty()) {
+            logParams.clear()
+        }
+        logParams.put(LogAdParam.ad_platform, LogAdParam.ad_platform_admob)
+        logParams.put(LogAdParam.ad_areakey, areaKey)
+        logParams.put(LogAdParam.ad_format, LogAdParam.ad_format_interstitial)
+        logParams.put(LogAdParam.ad_unit_name, AdvIDs.getAdmobInterstitialId())
         LogUtil.log(
             LogAdData.ad_start_loading,
-            mapOf(
-                LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-                LogAdParam.ad_areakey to areaKey,
-                LogAdParam.ad_format to LogAdParam.ad_format_interstitial,
-                LogAdParam.ad_unit_name to AdvIDs.getAdmobInterstitialId(),
-            )
+            logParams
         )
         val startLoadingTime = System.currentTimeMillis()
         InterstitialAd.load(
@@ -168,56 +173,79 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
                     Log.e(TAG, "Ad was loaded.")
                     hideLoading()
                     cancelLoadingTimeout()
+                    if (logParams.isNotEmpty()) {
+                        logParams.clear()
+                    }
+                    logParams.put(LogAdParam.ad_platform, LogAdParam.ad_platform_admob)
+                    logParams.put(
+                        LogAdParam.duration,
+                        (System.currentTimeMillis() - startLoadingTime)
+                    )
+                    logParams.put(LogAdParam.ad_areakey, areaKey)
+                    logParams.put(LogAdParam.ad_format, LogAdParam.ad_format_interstitial)
+                    logParams.put(
+                        LogAdParam.ad_source,
+                        (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: "unknow")
+                    )
+                    logParams.put(LogAdParam.ad_unit_name, AdvIDs.getAdmobInterstitialId())
                     LogUtil.log(
                         LogAdData.ad_finish_loading,
-                        mapOf(
-                            LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-                            LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-                            LogAdParam.ad_areakey to areaKey,
-                            LogAdParam.ad_format to LogAdParam.ad_format_interstitial,
-                            LogAdParam.ad_source to (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
-                                ?: "unknow"),
-                            LogAdParam.ad_unit_name to AdvIDs.getAdmobInterstitialId(),
-                        )
+                        logParams
                     )
                     ad.show(this@ShowInterstitialAdActivity)
                     ad.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdClicked() {
                             super.onAdClicked()
+                            if (logParams.isNotEmpty()) {
+                                logParams.clear()
+                            }
+                            logParams.put(LogAdParam.ad_platform, LogAdParam.ad_platform_admob)
+                            logParams.put(
+                                LogAdParam.duration,
+                                (System.currentTimeMillis() - startLoadingTime)
+                            )
+                            logParams.put(LogAdParam.ad_areakey, areaKey)
+                            logParams.put(LogAdParam.ad_format, LogAdParam.ad_format_interstitial)
+                            logParams.put(
+                                LogAdParam.ad_source,
+                                (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
+                                    ?: LogAdParam.unknown)
+                            )
+                            logParams.put(LogAdParam.ad_unit_name, AdvIDs.getAdmobInterstitialId())
                             LogUtil.log(
                                 LogAdData.ad_click,
-                                mapOf(
-                                    LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-                                    LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-                                    LogAdParam.ad_areakey to areaKey,
-                                    LogAdParam.ad_format to LogAdParam.ad_format_interstitial,
-                                    LogAdParam.ad_source to (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
-                                        ?: LogAdParam.unknown),
-                                    LogAdParam.ad_unit_name to AdvIDs.getAdmobInterstitialId(),
-                                )
+                                logParams
                             )
                         }
 
                         override fun onAdDismissedFullScreenContent() {
                             super.onAdDismissedFullScreenContent()
+                            if (logParams.isNotEmpty()) {
+                                logParams.clear()
+                            }
+                            logParams.put(LogAdParam.ad_platform, LogAdParam.ad_platform_admob)
+                            logParams.put(
+                                LogAdParam.duration,
+                                (System.currentTimeMillis() - startLoadingTime)
+                            )
+                            logParams.put(LogAdParam.ad_areakey, areaKey)
+                            logParams.put(LogAdParam.ad_format, LogAdParam.ad_format_interstitial)
+                            logParams.put(
+                                LogAdParam.ad_source,
+                                (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
+                                    ?: LogAdParam.unknown)
+                            )
+                            logParams.put(LogAdParam.ad_unit_name, AdvIDs.getAdmobInterstitialId())
                             LogUtil.log(
                                 LogAdData.ad_close,
-                                mapOf(
-                                    LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-                                    LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-                                    LogAdParam.ad_areakey to areaKey,
-                                    LogAdParam.ad_format to LogAdParam.ad_format_interstitial,
-                                    LogAdParam.ad_source to (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
-                                        ?: LogAdParam.unknown),
-                                    LogAdParam.ad_unit_name to AdvIDs.getAdmobInterstitialId(),
-                                )
+                                logParams
                             )
                             finish()
                         }
 
                         override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                             super.onAdFailedToShowFullScreenContent(p0)
-                       //     showAdmobAdv()
+                            //     showAdmobAdv()
                         }
 
                         override fun onAdImpression() {
@@ -257,31 +285,37 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
                             )
                             Singular.adRevenue(data)
                         }
+
+                        if (logParams.isNotEmpty()) {
+                            logParams.clear()
+                        }
+                        logParams.put(LogAdParam.ad_areakey, areaKey)
+                        logParams.put(
+                            FirebaseAnalytics.Param.AD_PLATFORM,
+                            LogAdParam.ad_platform_admob
+                        )
+                        logParams.put(
+                            FirebaseAnalytics.Param.AD_UNIT_NAME,
+                            AdvIDs.getAdmobInterstitialId()
+                        )
+                        logParams.put(
+                            FirebaseAnalytics.Param.AD_FORMAT,
+                            LogAdParam.ad_format_interstitial
+                        )
+                        logParams.put(
+                            FirebaseAnalytics.Param.AD_SOURCE,
+                            (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
+                                ?: LogAdParam.unknown)
+                        )
+                        logParams.put(FirebaseAnalytics.Param.CURRENCY, currency)
+                        logParams.put(FirebaseAnalytics.Param.VALUE, revenue)
                         LogUtil.log(
                             LogAdData.ad_impression,
-                            mapOf(
-                                LogAdParam.ad_areakey to areaKey,
-                                FirebaseAnalytics.Param.AD_PLATFORM to LogAdParam.ad_platform_admob,
-                                FirebaseAnalytics.Param.AD_UNIT_NAME to AdvIDs.getAdmobInterstitialId(),
-                                FirebaseAnalytics.Param.AD_FORMAT to LogAdParam.ad_format_interstitial,
-                                FirebaseAnalytics.Param.AD_SOURCE to (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
-                                    ?: LogAdParam.unknown),
-                                FirebaseAnalytics.Param.CURRENCY to currency,
-                                FirebaseAnalytics.Param.VALUE to revenue,
-                            )
+                            logParams
                         )
                         LogUtil.log(
                             LogAdData.ad_revenue,
-                            mapOf(
-                                LogAdParam.ad_areakey to areaKey,
-                                FirebaseAnalytics.Param.AD_PLATFORM to LogAdParam.ad_platform_admob,
-                                FirebaseAnalytics.Param.AD_UNIT_NAME to AdvIDs.getAdmobInterstitialId(),
-                                FirebaseAnalytics.Param.AD_FORMAT to LogAdParam.ad_format_interstitial,
-                                FirebaseAnalytics.Param.AD_SOURCE to (ad.responseInfo.loadedAdapterResponseInfo?.adSourceName
-                                    ?: LogAdParam.unknown),
-                                FirebaseAnalytics.Param.CURRENCY to currency,
-                                FirebaseAnalytics.Param.VALUE to revenue,
-                            )
+                            logParams
                         )
                         LogUtil.logTaiChiAdmob(adValue)
                     }
@@ -296,32 +330,38 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
     }
 
     fun showMaxAdv() {
+        if (logParams.isNotEmpty()) {
+            logParams.clear()
+        }
+        logParams.put(LogAdParam.ad_platform, LogAdParam.ad_platform_max)
+        logParams.put(LogAdParam.ad_areakey, areaKey)
+        logParams.put(LogAdParam.ad_format, LogAdParam.ad_format_interstitial)
+        logParams.put(LogAdParam.ad_unit_name, AdvIDs.MAX_INTERSTITIAL_ID)
+
+
         LogUtil.log(
             LogAdData.ad_start_loading,
-            mapOf(
-                LogAdParam.ad_platform to LogAdParam.ad_platform_max,
-                LogAdParam.ad_areakey to areaKey,
-                LogAdParam.ad_format to LogAdParam.ad_format_interstitial,
-                LogAdParam.ad_unit_name to AdvIDs.MAX_INTERSTITIAL_ID,
-            )
+            logParams
         )
-
         val startLoadingTime = System.currentTimeMillis()
         val interstitialAd = MaxInterstitialAd(AdvIDs.MAX_INTERSTITIAL_ID)
         interstitialAd.setListener(object : MaxAdListener {
             override fun onAdLoaded(maxAd: MaxAd) {
                 hideLoading()
                 cancelLoadingTimeout()
+                if(logParams.isNotEmpty()){
+                    logParams.clear()
+                }
+                logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_max)
+                logParams.put(LogAdParam.duration,(System.currentTimeMillis() - startLoadingTime))
+                logParams.put(LogAdParam.ad_areakey,areaKey)
+                logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_interstitial)
+                logParams.put(LogAdParam.ad_source,maxAd.networkName)
+                logParams.put(LogAdParam.ad_unit_name,AdvIDs.MAX_INTERSTITIAL_ID)
+
                 LogUtil.log(
                     LogAdData.ad_finish_loading,
-                    mapOf(
-                        LogAdParam.ad_platform to LogAdParam.ad_platform_max,
-                        LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-                        LogAdParam.ad_areakey to areaKey,
-                        LogAdParam.ad_format to LogAdParam.ad_format_interstitial,
-                        LogAdParam.ad_source to maxAd.networkName,
-                        LogAdParam.ad_unit_name to AdvIDs.MAX_INTERSTITIAL_ID,
-                    )
+                    logParams
                 )
                 if (interstitialAd.isReady) {
                     interstitialAd.showAd(this@ShowInterstitialAdActivity)
@@ -332,57 +372,64 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
 
             override fun onAdDisplayed(maxAd: MaxAd) {
                 AdvCheckManager.params.interTimes++
+                if(logParams.isNotEmpty()){
+                    logParams.clear()
+                }
+                logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_max)
+                logParams.put( FirebaseAnalytics.Param.CURRENCY,LogAdParam.USD)
+                logParams.put(FirebaseAnalytics.Param.VALUE,maxAd.revenue)
+                logParams.put(LogAdParam.ad_areakey,areaKey)
+                logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_interstitial)
+                logParams.put(LogAdParam.ad_source,maxAd.networkName)
+                logParams.put(LogAdParam.ad_unit_name,AdvIDs.MAX_INTERSTITIAL_ID)
 
 //				Singular.event("${LogAdData.ad_display}_${Ads.advDisplayCount}")
 //				Ads.advDisplayCount++
                 LogUtil.log(
                     LogAdData.ad_impression,
-                    mapOf(
-                        LogAdParam.ad_areakey to areaKey,
-                        FirebaseAnalytics.Param.AD_PLATFORM to LogAdParam.ad_platform_max,
-                        FirebaseAnalytics.Param.AD_UNIT_NAME to AdvIDs.MAX_INTERSTITIAL_ID,
-                        FirebaseAnalytics.Param.AD_FORMAT to LogAdParam.ad_format_interstitial,
-                        LogAdParam.ad_source to maxAd.networkName,
-                        FirebaseAnalytics.Param.CURRENCY to LogAdParam.USD,
-                        FirebaseAnalytics.Param.VALUE to maxAd.revenue,
-                    )
+                    logParams
                 )
             }
 
             override fun onAdHidden(maxAd: MaxAd) {
+                if(logParams.isNotEmpty()){
+                    logParams.clear()
+                }
+                logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_max)
+                logParams.put(LogAdParam.duration,(System.currentTimeMillis() - startLoadingTime))
+                logParams.put(LogAdParam.ad_areakey,areaKey)
+                logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_interstitial)
+                logParams.put(LogAdParam.ad_source,maxAd.networkName)
+                logParams.put(LogAdParam.ad_unit_name,AdvIDs.MAX_INTERSTITIAL_ID)
                 LogUtil.log(
                     LogAdData.ad_close,
-                    mapOf(
-                        LogAdParam.ad_platform to LogAdParam.ad_platform_max,
-                        LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-                        LogAdParam.ad_areakey to areaKey,
-                        LogAdParam.ad_format to LogAdParam.ad_format_interstitial,
-                        LogAdParam.ad_source to maxAd.networkName,
-                        LogAdParam.ad_unit_name to AdvIDs.MAX_INTERSTITIAL_ID,
-                    )
+                    logParams
                 )
                 finish()
             }
 
             override fun onAdClicked(maxAd: MaxAd) {
+
+
+                if(logParams.isNotEmpty()){
+                    logParams.clear()
+                }
+                logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_max)
+                logParams.put(LogAdParam.duration,(System.currentTimeMillis() - startLoadingTime))
+                logParams.put(LogAdParam.ad_areakey,areaKey)
+                logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_interstitial)
+                logParams.put(LogAdParam.ad_source,maxAd.networkName)
+                logParams.put(LogAdParam.ad_unit_name,AdvIDs.MAX_INTERSTITIAL_ID)
                 LogUtil.log(
                     LogAdData.ad_click,
-                    mapOf(
-                        LogAdParam.ad_platform to LogAdParam.ad_platform_max,
-                        LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-                        LogAdParam.ad_areakey to areaKey,
-                        LogAdParam.ad_format to LogAdParam.ad_format_interstitial,
-                        LogAdParam.ad_source to maxAd.networkName,
-                        LogAdParam.ad_unit_name to AdvIDs.MAX_INTERSTITIAL_ID,
-                    )
+                    logParams
                 )
             }
 
             override fun onAdLoadFailed(s: String, maxError: MaxError) {
 
 
-
-              //  showMaxAdv()
+                //  showMaxAdv()
             }
 
             override fun onAdDisplayFailed(maxAd: MaxAd, maxError: MaxError) {
@@ -408,17 +455,20 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
                 )
                 Singular.adRevenue(data)
             }
+
+            if(logParams.isNotEmpty()){
+                logParams.clear()
+            }
+            logParams.put(LogAdParam.ad_areakey,areaKey)
+            logParams.put(FirebaseAnalytics.Param.AD_PLATFORM,LogAdParam.ad_platform_max)
+            logParams.put(FirebaseAnalytics.Param.AD_UNIT_NAME ,  AdvIDs.MAX_INTERSTITIAL_ID)
+            logParams.put(FirebaseAnalytics.Param.AD_FORMAT,LogAdParam.ad_format_interstitial)
+            logParams.put(LogAdParam.ad_source, maxAd.networkName)
+            logParams.put(FirebaseAnalytics.Param.CURRENCY, LogAdParam.USD)
+            logParams.put(FirebaseAnalytics.Param.VALUE,maxAd.revenue)
             LogUtil.log(
                 LogAdData.ad_revenue,
-                mapOf(
-                    LogAdParam.ad_areakey to areaKey,
-                    FirebaseAnalytics.Param.AD_PLATFORM to LogAdParam.ad_platform_max,
-                    FirebaseAnalytics.Param.AD_UNIT_NAME to AdvIDs.getAdmobInterstitialId(),
-                    FirebaseAnalytics.Param.AD_FORMAT to LogAdParam.ad_format_interstitial,
-                    LogAdParam.ad_source to maxAd.networkName,
-                    FirebaseAnalytics.Param.CURRENCY to LogAdParam.USD,
-                    FirebaseAnalytics.Param.VALUE to maxAd.revenue,
-                )
+                logParams
             )
             LogUtil.logTaiChiMax(maxAd)
         }

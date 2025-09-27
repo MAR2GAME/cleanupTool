@@ -1,6 +1,7 @@
 package com.mycleaner.phonecleantool.adv
 
 import android.app.Activity
+import android.icu.number.Precision.currency
 import android.util.Log
 import com.applovin.mediation.MaxAd
 import com.applovin.mediation.MaxAdListener
@@ -35,6 +36,8 @@ object ShowOpenAd {
 	private var maxAppOpenAd: MaxAppOpenAd? = null
 	private var isMaxAdLoading = AtomicBoolean(false)
 
+	var logParams: MutableMap<String, Any> = mutableMapOf()
+
 
 	fun showOpenAd(activity: Activity, areaKey: String, listener: OpenAdListener?) {
 		if(AdvCheckManager.params.limitTime < System.currentTimeMillis()){
@@ -51,14 +54,16 @@ object ShowOpenAd {
 		val adUnitId = AdvIDs.getAdmobOpenId()
 		val startLoadingTime = System.currentTimeMillis()
 		val weakActivity = WeakReference(activity)
+		if(logParams.isNotEmpty()){
+			logParams.clear()
+		}
+		logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_admob)
+		logParams.put(LogAdParam.ad_areakey,areaKey)
+		logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_open)
+		logParams.put(LogAdParam.ad_unit_name,AdvIDs.getAdmobOpenId())
 		LogUtil.log(
 			LogAdData.ad_start_loading,
-			mapOf(
-				LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-				LogAdParam.ad_areakey to areaKey,
-				LogAdParam.ad_format to LogAdParam.ad_format_open,
-				LogAdParam.ad_unit_name to AdvIDs.getAdmobOpenId(),
-			)
+			logParams
 		)
 		AppOpenAd.load(
 			activity,
@@ -73,16 +78,18 @@ object ShowOpenAd {
 						return
 					}
 					listener?.onLoad()
+					if(logParams.isNotEmpty()){
+						logParams.clear()
+					}
+					logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_admob)
+					logParams.put(LogAdParam.duration,(System.currentTimeMillis() - startLoadingTime))
+					logParams.put(LogAdParam.ad_areakey,areaKey)
+					logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_open)
+					logParams.put(LogAdParam.ad_source, (admobAppOpenAd.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: "unknow"))
+					logParams.put(LogAdParam.ad_unit_name,AdvIDs.getAdmobOpenId())
 					LogUtil.log(
 						LogAdData.ad_finish_loading,
-						mapOf(
-							LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-							LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-							LogAdParam.ad_areakey to areaKey,
-							LogAdParam.ad_format to LogAdParam.ad_format_open,
-							LogAdParam.ad_source to (admobAppOpenAd.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: "unknow"),
-							LogAdParam.ad_unit_name to AdvIDs.getAdmobOpenId(),
-						)
+						logParams
 					)
 					admobAppOpenAd.fullScreenContentCallback =
 						object : FullScreenContentCallback() {
@@ -111,16 +118,18 @@ object ShowOpenAd {
 								AdvCheckManager.params.openTimes++
 							}
 							override fun onAdClicked() {
+								if(logParams.isNotEmpty()){
+									logParams.clear()
+								}
+								logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_admob)
+								logParams.put(LogAdParam.duration,(System.currentTimeMillis() - startLoadingTime))
+								logParams.put(LogAdParam.ad_areakey,areaKey)
+								logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_open)
+								logParams.put(LogAdParam.ad_source, (admobAppOpenAd.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: LogAdParam.unknown))
+								logParams.put(LogAdParam.ad_unit_name,AdvIDs.getAdmobOpenId())
 								LogUtil.log(
 									LogAdData.ad_click,
-									mapOf(
-										LogAdParam.ad_platform to LogAdParam.ad_platform_admob,
-										LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-										LogAdParam.ad_areakey to areaKey,
-										LogAdParam.ad_format to LogAdParam.ad_format_open,
-										LogAdParam.ad_source to (admobAppOpenAd.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: LogAdParam.unknown),
-										LogAdParam.ad_unit_name to AdvIDs.getAdmobOpenId(),
-									)
+									logParams
 								)
 							}
 						}
@@ -147,29 +156,23 @@ object ShowOpenAd {
 							)
 							Singular.adRevenue(data)
 						}
+						if(logParams.isNotEmpty()){
+							logParams.clear()
+						}
+						logParams.put(LogAdParam.ad_areakey,areaKey)
+						logParams.put(FirebaseAnalytics.Param.AD_PLATFORM,LogAdParam.ad_platform_admob)
+						logParams.put(FirebaseAnalytics.Param.AD_UNIT_NAME , AdvIDs.getAdmobOpenId())
+						logParams.put(FirebaseAnalytics.Param.AD_FORMAT,LogAdParam.ad_format_open)
+						logParams.put(FirebaseAnalytics.Param.AD_SOURCE,(admobAppOpenAd.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: LogAdParam.unknown))
+						logParams.put(FirebaseAnalytics.Param.CURRENCY, currency)
+						logParams.put(FirebaseAnalytics.Param.VALUE,revenue)
 						LogUtil.log(
 							LogAdData.ad_impression,
-							mapOf(
-								LogAdParam.ad_areakey to areaKey,
-								FirebaseAnalytics.Param.AD_PLATFORM to LogAdParam.ad_platform_admob,
-								FirebaseAnalytics.Param.AD_UNIT_NAME to AdvIDs.getAdmobOpenId(),
-								FirebaseAnalytics.Param.AD_FORMAT to LogAdParam.ad_format_open,
-								FirebaseAnalytics.Param.AD_SOURCE to (admobAppOpenAd.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: LogAdParam.unknown),
-								FirebaseAnalytics.Param.CURRENCY to currency,
-								FirebaseAnalytics.Param.VALUE to revenue,
-							)
+							logParams
 						)
 						LogUtil.log(
 							LogAdData.ad_revenue,
-							mapOf(
-								LogAdParam.ad_areakey to areaKey,
-								FirebaseAnalytics.Param.AD_PLATFORM to LogAdParam.ad_platform_admob,
-								FirebaseAnalytics.Param.AD_UNIT_NAME to AdvIDs.getAdmobOpenId(),
-								FirebaseAnalytics.Param.AD_FORMAT to LogAdParam.ad_format_open,
-								FirebaseAnalytics.Param.AD_SOURCE to (admobAppOpenAd.responseInfo.loadedAdapterResponseInfo?.adSourceName ?: LogAdParam.unknown),
-								FirebaseAnalytics.Param.CURRENCY to currency,
-								FirebaseAnalytics.Param.VALUE to revenue,
-							)
+							logParams
 						)
 						LogUtil.logTaiChiAdmob(adValue)
 					}
@@ -190,14 +193,17 @@ object ShowOpenAd {
 			return
 		}
 		val weakActivity = WeakReference(activity)
+
+		if(logParams.isNotEmpty()){
+			logParams.clear()
+		}
+		logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_max)
+		logParams.put(LogAdParam.ad_areakey,areaKey)
+		logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_open)
+		logParams.put(LogAdParam.ad_unit_name,AdvIDs.MAX_OPEN_ID)
 		LogUtil.log(
 			LogAdData.ad_start_loading,
-			mapOf(
-				LogAdParam.ad_platform to LogAdParam.ad_platform_max,
-				LogAdParam.ad_areakey to areaKey,
-				LogAdParam.ad_format to LogAdParam.ad_format_open,
-				LogAdParam.ad_unit_name to AdvIDs.MAX_OPEN_ID,
-			)
+			logParams
 		)
 		val startLoadingTime = System.currentTimeMillis()
 		maxAppOpenAd = MaxAppOpenAd(AdvIDs.MAX_OPEN_ID).apply {
@@ -205,64 +211,74 @@ object ShowOpenAd {
 				override fun onAdLoaded(maxAd: MaxAd) {
 					isMaxAdLoading.set(false)
 					listener?.onLoad()
+					if(logParams.isNotEmpty()){
+						logParams.clear()
+					}
+					logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_max)
+					logParams.put(LogAdParam.duration,(System.currentTimeMillis() - startLoadingTime))
+					logParams.put(LogAdParam.ad_areakey,areaKey)
+					logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_open)
+					logParams.put(LogAdParam.ad_source,maxAd.networkName)
+					logParams.put(LogAdParam.ad_unit_name,AdvIDs.MAX_OPEN_ID)
+
+
 					LogUtil.log(
 						LogAdData.ad_finish_loading,
-						mapOf(
-							LogAdParam.ad_platform to LogAdParam.ad_platform_max,
-							LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-							LogAdParam.ad_areakey to areaKey,
-							LogAdParam.ad_format to LogAdParam.ad_format_open,
-							LogAdParam.ad_source to maxAd.networkName,
-							LogAdParam.ad_unit_name to AdvIDs.MAX_OPEN_ID,
-						)
+						logParams
 					)
 					weakActivity.get()?.let { maxAppOpenAd?.showAd() }
 				}
 
 				override fun onAdDisplayed(maxAd: MaxAd) {
 					AdvCheckManager.params.openTimes++
+					if(logParams.isNotEmpty()){
+						logParams.clear()
+					}
+					logParams.put(LogAdParam.ad_areakey,areaKey)
+					logParams.put(FirebaseAnalytics.Param.AD_PLATFORM,LogAdParam.ad_platform_max)
+					logParams.put(FirebaseAnalytics.Param.AD_UNIT_NAME ,  AdvIDs.MAX_OPEN_ID)
+					logParams.put(FirebaseAnalytics.Param.AD_FORMAT,LogAdParam.ad_format_open)
+					logParams.put(LogAdParam.ad_source, maxAd.networkName)
+					logParams.put(FirebaseAnalytics.Param.CURRENCY, LogAdParam.USD)
+					logParams.put(FirebaseAnalytics.Param.VALUE,maxAd.revenue)
 					LogUtil.log(
 						LogAdData.ad_impression,
-						mapOf(
-							LogAdParam.ad_areakey to areaKey,
-							FirebaseAnalytics.Param.AD_PLATFORM to LogAdParam.ad_platform_max,
-							FirebaseAnalytics.Param.AD_UNIT_NAME to AdvIDs.MAX_OPEN_ID,
-							FirebaseAnalytics.Param.AD_FORMAT to LogAdParam.ad_format_open,
-							LogAdParam.ad_source to maxAd.networkName,
-							FirebaseAnalytics.Param.CURRENCY to LogAdParam.USD,
-							FirebaseAnalytics.Param.VALUE to maxAd.revenue,
-						)
+						logParams
 					)
 					//maxAppOpenAd?.loadAd()
 				}
 
 				override fun onAdHidden(maxAd: MaxAd) {
+					if(logParams.isNotEmpty()){
+						logParams.clear()
+					}
+					logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_max)
+					logParams.put(LogAdParam.duration,(System.currentTimeMillis() - startLoadingTime))
+					logParams.put(LogAdParam.ad_areakey,areaKey)
+					logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_open)
+					logParams.put(LogAdParam.ad_source,maxAd.networkName)
+					logParams.put(LogAdParam.ad_unit_name,AdvIDs.MAX_OPEN_ID)
 					LogUtil.log(
 						LogAdData.ad_close,
-						mapOf(
-							LogAdParam.ad_platform to LogAdParam.ad_platform_max,
-							LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-							LogAdParam.ad_areakey to areaKey,
-							LogAdParam.ad_format to LogAdParam.ad_format_open,
-							LogAdParam.ad_source to maxAd.networkName,
-							LogAdParam.ad_unit_name to AdvIDs.MAX_OPEN_ID,
-						)
+						logParams
 					)
 					maxAppOpenAd?.loadAd()
 					listener?.onClose()
 				}
 
 				override fun onAdClicked(maxAd: MaxAd) {
+					if(logParams.isNotEmpty()){
+						logParams.clear()
+					}
+					logParams.put(LogAdParam.ad_platform,LogAdParam.ad_platform_max)
+					logParams.put(LogAdParam.duration,(System.currentTimeMillis() - startLoadingTime))
+					logParams.put(LogAdParam.ad_areakey,areaKey)
+					logParams.put(LogAdParam.ad_format,LogAdParam.ad_format_open)
+					logParams.put(LogAdParam.ad_source,maxAd.networkName)
+					logParams.put(LogAdParam.ad_unit_name,AdvIDs.MAX_OPEN_ID)
 					LogUtil.log(
 						LogAdData.ad_click,
-						mapOf(
-							LogAdParam.ad_platform to LogAdParam.ad_platform_max,
-							LogAdParam.duration to (System.currentTimeMillis() - startLoadingTime),
-							LogAdParam.ad_areakey to areaKey,
-							LogAdParam.ad_format to LogAdParam.ad_format_open,
-							LogAdParam.ad_source to maxAd.networkName,
-							LogAdParam.ad_unit_name to AdvIDs.MAX_OPEN_ID,
-						)
+						logParams
 					)
 				}
 
@@ -295,17 +311,19 @@ object ShowOpenAd {
 					)
 					Singular.adRevenue(data)
 				}
+				if(logParams.isNotEmpty()){
+					logParams.clear()
+				}
+				logParams.put(LogAdParam.ad_areakey,areaKey)
+				logParams.put(FirebaseAnalytics.Param.AD_PLATFORM,LogAdParam.ad_platform_max)
+				logParams.put(FirebaseAnalytics.Param.AD_UNIT_NAME ,  AdvIDs.MAX_OPEN_ID)
+				logParams.put(FirebaseAnalytics.Param.AD_FORMAT,LogAdParam.ad_format_open)
+				logParams.put(LogAdParam.ad_source, maxAd.networkName)
+				logParams.put(FirebaseAnalytics.Param.CURRENCY, LogAdParam.USD)
+				logParams.put(FirebaseAnalytics.Param.VALUE,maxAd.revenue)
 				LogUtil.log(
 					LogAdData.ad_revenue,
-					mapOf(
-						LogAdParam.ad_areakey to areaKey,
-						FirebaseAnalytics.Param.AD_PLATFORM to LogAdParam.ad_platform_max,
-						FirebaseAnalytics.Param.AD_UNIT_NAME to AdvIDs.MAX_OPEN_ID,
-						FirebaseAnalytics.Param.AD_FORMAT to LogAdParam.ad_format_open,
-						LogAdParam.ad_source to maxAd.networkName,
-						FirebaseAnalytics.Param.CURRENCY to LogAdParam.USD,
-						FirebaseAnalytics.Param.VALUE to maxAd.revenue,
-					)
+					logParams
 				)
 				LogUtil.logTaiChiMax(maxAd)
 			}

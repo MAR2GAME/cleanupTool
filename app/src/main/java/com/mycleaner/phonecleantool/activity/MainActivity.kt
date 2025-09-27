@@ -74,6 +74,8 @@ class MainActivity : BaseMvvmActivity<ActivityMainBinding, MainViewModel>() {
     var requestPermissionDialog: RequestPermissionDialog? = null
     var notificationDialog: NotificationDialog? = null
 
+
+    var logParams: MutableMap<String, Any> = mutableMapOf()
     private lateinit var appUpdateHelper: AppUpdateHelper
 
     //var isToScan=false
@@ -111,8 +113,12 @@ class MainActivity : BaseMvvmActivity<ActivityMainBinding, MainViewModel>() {
         initCleanSDK()
         binding.progressBar.setProgressColor(this@MainActivity.getColor(R.color.btn_nor))
         binding.btClean.safeClick {
-            LogUtil.log("click_btn_clean", mapOf())
-            LogUtil.log("enter_clean", mapOf("referrer_name" to "homepage"))
+            if(logParams.isNotEmpty()){
+                logParams.clear()
+            }
+            LogUtil.log("click_btn_clean", logParams)
+            logParams.put("referrer_name" , "homepage")
+            LogUtil.log("enter_clean", logParams)
             toScanActivity()
         }
         binding.ivSetting.safeClick {
@@ -292,7 +298,11 @@ class MainActivity : BaseMvvmActivity<ActivityMainBinding, MainViewModel>() {
                             when (item.itemName) {
                                 getString(R.string.process_manager) -> {
                                     toProcess()
-                                    LogUtil.log("click_btn_processman", mapOf())
+                                    if(logParams.isNotEmpty()){
+                                        logParams.clear()
+                                    }
+
+                                    LogUtil.log("click_btn_processman", logParams)
                                 }
                                 getString(R.string.app_manager) -> {
                                     bundle.putString(
@@ -300,7 +310,10 @@ class MainActivity : BaseMvvmActivity<ActivityMainBinding, MainViewModel>() {
                                         getString(R.string.app_manager)
                                     )
                                     readyGo(LoadingActivity::class.java, bundle)
-                                    LogUtil.log("click_btn_appman", mapOf())
+                                    if(logParams.isNotEmpty()){
+                                        logParams.clear()
+                                    }
+                                    LogUtil.log("click_btn_appman", logParams)
                                 }
 
                                 getString(R.string.speaker_cleaner) -> {
@@ -308,8 +321,11 @@ class MainActivity : BaseMvvmActivity<ActivityMainBinding, MainViewModel>() {
                                         BaseConstant.NEXT_TAG,
                                         getString(R.string.speaker_cleaner)
                                     )
+                                    if(logParams.isNotEmpty()){
+                                        logParams.clear()
+                                    }
                                     readyGo(LoadingActivity::class.java, bundle)
-                                    LogUtil.log("click_btn_speaker", mapOf())
+                                    LogUtil.log("click_btn_speaker", logParams)
                                 }
 
                                 getString(R.string.battery_info) -> {
@@ -317,17 +333,26 @@ class MainActivity : BaseMvvmActivity<ActivityMainBinding, MainViewModel>() {
                                         BaseConstant.NEXT_TAG,
                                         getString(R.string.battery_info)
                                     )
+                                    if(logParams.isNotEmpty()){
+                                        logParams.clear()
+                                    }
                                     readyGo(LoadingActivity::class.java, bundle)
-                                    LogUtil.log("click_btn_battery", mapOf())
+                                    LogUtil.log("click_btn_battery", logParams)
                                 }
                                 getString(R.string.large_file_cleaner) -> {
+                                    if(logParams.isNotEmpty()){
+                                        logParams.clear()
+                                    }
                                     toLargeFile(bundle)
-                                    LogUtil.log("click_btn_largefile", mapOf())
+                                    LogUtil.log("click_btn_largefile", logParams)
                                 }
 
                                 getString(R.string.screenshot_manager) -> {
+                                    if(logParams.isNotEmpty()){
+                                        logParams.clear()
+                                    }
                                     toScreenshotManager(bundle)
-                                    LogUtil.log("click_btn_screenshotman", mapOf())
+                                    LogUtil.log("click_btn_screenshotman", logParams)
                                 }
 
 
@@ -405,7 +430,10 @@ class MainActivity : BaseMvvmActivity<ActivityMainBinding, MainViewModel>() {
 
             REQUEST_CODE_NOTIFICATION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    LogUtil.log("agree_push_permission", mapOf())
+                    if(logParams.isNotEmpty()){
+                        logParams.clear()
+                    }
+                    LogUtil.log("agree_push_permission", logParams)
                     startPersistentService()
                 } else {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
@@ -436,7 +464,10 @@ class MainActivity : BaseMvvmActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     fun onGetPermission() {
-        LogUtil.log("agree_filemanage_permission", mapOf())
+        if(logParams.isNotEmpty()){
+            logParams.clear()
+        }
+        LogUtil.log("agree_filemanage_permission", logParams)
         when (toTag) {
             getString(R.string.junk_files) -> {
                 EventBus.getDefault().postSticky(CleanSdkEvent(isInitSuccess, sdkClean))

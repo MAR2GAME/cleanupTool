@@ -175,7 +175,8 @@ object AdvCheckManager {
     /**
      * 处理成功的响应
      */
-    private fun processSuccessfulResponse(body: String, areaKey: String): Boolean {
+    private fun processSuccessfulResponse
+                (body: String, areaKey: String): Boolean {
         return try {
             val resp = json.decodeFromString<CheckAdvResponse>(body)
             Log.d(TAG, "checkAdv: $areaKey success, CanPlay: ${resp.CanPlay}")

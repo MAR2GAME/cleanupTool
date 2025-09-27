@@ -354,8 +354,10 @@ fun Activity.hasStoragePermission(): Boolean {
 }
 fun Activity.rateUS(){
     try {
-        val uri = Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())
-        val intent = Intent(Intent.ACTION_VIEW, uri)
+        val uri = Uri.parse("https://play.google.com/store/apps/details?id=" +
+                "" + getPackageName())
+        val intent = Intent(Intent.ACTION_VIEW
+            , uri)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     } catch (e: Exception) {
