@@ -192,7 +192,6 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
                         LogAdData.ad_finish_loading,
                         logParams
                     )
-                    ad.show(this@ShowInterstitialAdActivity)
                     ad.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdClicked() {
                             super.onAdClicked()
@@ -319,6 +318,9 @@ class ShowInterstitialAdActivity : AppCompatActivity() {
                         )
                         LogUtil.logTaiChiAdmob(adValue)
                     }
+
+                    ad.show(this@ShowInterstitialAdActivity)
+
                 }
 
                 override fun onAdFailedToLoad(adError: LoadAdError) {

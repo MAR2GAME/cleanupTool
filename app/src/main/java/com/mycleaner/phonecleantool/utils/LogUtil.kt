@@ -15,15 +15,13 @@ import org.json.JSONObject
 
 object LogUtil {
     private const val TAG = "LogUtil"
-
     private  var bundle = Bundle()
 
     private  var jsonObject = JSONObject()
 
-
     fun log(eventName: String, params: Map<String, Any>) {
         Log.e(TAG, "log: $eventName $params")
-        if (eventName!=LogAdData.ad_impression) {
+           if (eventName!=LogAdData.ad_impression) {
           logFirebase(eventName, params)
         }
         logThinking(eventName, params)
@@ -49,6 +47,7 @@ object LogUtil {
 
     fun logThinking(eventName: String, params: Map<String, Any>) {
         try {
+ 
             jsonObject = JSONObject()
             for ((key, value) in params) {
                 jsonObject.put(key, value)
